@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Caso N°2666</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #000;
+      color: #00ff41;
+      font-family: 'Courier New', Courier, monospace;
+      overflow: hidden;
+    }
+
+    /* ── MATRIX CANVAS ── */
+    #matrix-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+    }
+
+    /* ── SHARED OVERLAY BASE ── */
+    .screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+    }
+    .screen.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ── QUIZ SCREEN ── */
+    #quiz-screen {
+      background: rgba(0,0,0,0.88);
+    }
+    .quiz-box {
+      max-width: 680px;
+      width: 90%;
+      border: 1px solid #00ff41;
+      padding: 40px 36px;
+      text-align: center;
+    }
+    .quiz-box h2 {
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      color: #00cc33;
+    }
+    .passage {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 36px;
+      color: #00ff41;
+    }
+    .passage .blank {
+      color: #00ff41;
+      border-bottom: 1px solid #00ff41;
+      letter-spacing: 2px;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .option-btn {
+      background: transparent;
+      border: 1px solid #00ff41;
+      color: #00ff41;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.95rem;
+      padding: 14px 20px;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.2s, color 0.2s;
+    }
+    .option-btn:hover {
+      background: #00ff4120;
+    }
+
+    /* ── SECRET TEXT SCREEN ── */
+    #text-screen {
+      background: rgba(0,0,0,0.92);
+      align-items: flex-start;
+      overflow-y: auto;
+    }
+    .text-content {
+      max-width: 780px;
+      width: 90%;
+      margin: 60px auto;
+      line-height: 1.9;
+      font-size: 0.97rem;
+      color: #00ff41;
+    }
+    .text-content h1 {
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .text-content .meta {
+      font-size: 0.82rem;
+      color: #00cc33;
+      margin-bottom: 32px;
+      border-bottom: 1px solid #00ff4140;
+      padding-bottom: 16px;
+    }
+    .text-content p {
+      margin-bottom: 22px;
+    }
+    .text-content a {
+      color: #00ff41;
+      background: #00ff4122;
+      text-decoration: underline;
+      text-decoration-color: #00ff41;
+      padding: 0 3px;
+    }
+    .text-content a:hover {
+      background: #00ff4144;
+    }
+    .entry-date {
+      font-size: 0.85rem;
+      color: #00cc33;
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Matrix rain canvas -->
+<canvas id="matrix-canvas"></canvas>
+
+<!-- Quiz overlay -->
+<div id="quiz-screen" class="screen">
+  <div class="quiz-box">
+    <h2>&gt;&gt; acceso restringido // verificación requerida &lt;&lt;</h2>
+    <div class="passage">
+      «Enjugará Dios toda lágrima de los ojos de ellos; y ya no habrá muerte,
+      ni habrá más llanto, ni clamor, ni dolor;
+      <span class="blank">______ ___ ________ _____ _______</span>.»
+      <br><br>— Apocalipsis 21:4
+    </div>
+    <div class="options">
+      <button class="option-btn" onclick="handleAnswer(true)">
+        1. &nbsp;"porque las primeras cosas pasaron"
+      </button>
+      <button class="option-btn" onclick="handleAnswer(false)">
+        2. &nbsp;"pues el tiempo de la gracia fue cumplido"
+      </button>
+      <button class="option-btn" onclick="handleAnswer(false)">
+        3. &nbsp;"y la oscuridad no prevalecerá sobre ellos"
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Secret text overlay -->
+<div id="text-screen" class="screen">
+  <div class="text-content">
+    <h1>El enigmático caso del oficial de policía Roberto Mendieta.</h1>
+    <p style="margin-bottom:6px;">Sigue desaparecido. Aquí parte de su investigación:</p>
+
+    <div class="meta">
+      <div>Caso N°2666_No_Oficial.docx</div>
+      <div>Última modificación: 26/12/2025 &mdash; 3:15 P.M.</div>
+      <div>Guardado en: Unidad local oculta (D:)</div>
+    </div>
+
+    <div class="entry-date">[ Entrada del 22/12/2025 ]</div>
+
+    <p>
+      Sé muy bien que, si la división especial de la policía revisa mi computador
+      y encuentra este archivo, mi carrera terminará, pero la incompetencia de mis
+      superiores no me deja otra alternativa. Oficialmente, el caso del
+      «Asesino de la tarjeta» está cerrado
+      y archivado como una serie de robos y homicidios en primer grado inconexas.
+      Extraoficialmente, tengo un par de carpetas llenas de autopsias en mi
+      escritorio que demuestran lo contrario y también un nudo en las sienes que
+      no me deja dormir y pensar.
+    </p>
+
+    <p>
+      El primer cuerpo apareció exactamente hace un mes, en las escaleras de la
+      parada de
+      metro-vía
+      de las calles
+      <a href="https://www.google.com/maps/@-2.1969664,-79.8824459,3a,75y,40.61h,78.7t/data=!3m7!1e1!3m5!1sc2pcJHkijqAF7j6fD6qVzg!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D11.301315887133725%26panoid%3Dc2pcJHkijqAF7j6fD6qVzg%26yaw%3D40.60930961209415!7i16384!8i8192?entry=ttu&g_ep=EgoyMDI2MDUzMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">Colón Fontanarosa y Pedro Carbo</a>:
+      de complexión menuda, asfixiado, sin señales de haberse defendido.
+      Los forenses pasaron por alto las marcas casi imperceptibles en las muñecas,
+      pero lo que realmente me obsesiona es el detalle que el asesino dejó bajo
+      la lengua de la víctima: una tarjeta de metro-vía que tenía escrita
+      <strong>11:11 p.m.</strong>, hora en la que, según la autopsia, se cometió
+      el asesinato.
+    </p>
+
+    <p>
+      Dos semanas después, en la parada ubicada en la calle
+      <a href="https://www.google.com/maps/@-2.1998559,-79.8815961,3a,75y,307.27h,89.22t/data=!3m7!1e1!3m5!1sLAkOR6fTJgI3Z5TqZDjN3w!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D0.7796340263982415%26panoid%3DLAkOR6fTJgI3Z5TqZDjN3w%26yaw%3D307.27206703375435!7i16384!8i8192?entry=ttu&g_ep=EgoyMDI2MDUzMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">Simón Bolívar, en el extremo sur del Malecón 2000</a>,
+      encontramos el segundo cuerpo. La tarjeta de su lengua marcaba, otra vez,
+      las <strong>11:11 p.m.</strong> ¿Qué busca el homicida con mostrar la hora
+      <a href="https://www.inscripture.com/inscripture-news/what-does-1111-mean/" target="_blank" rel="noopener">11:11?</a> ¿qué hay detrás de este elemento?
+    </p>
+
+    <p>
+      Nadie en la comisaría quiere ver el patrón, así que voy a usar este
+      documento para almacenar información e ir conectando los puntos por mi
+      cuenta, antes de que la medianoche me traiga otro cadáver: <a href="https://6a20720fb31--killuncoderelaxed-gingersnap-3c0f8f.netlify.app/" target="_blank" rel="noopener">el tercero</a>.
+    </p>
+  </div>
+</div>
+
+<script>
+  // ── MATRIX RAIN ──────────────────────────────────────────────
+  const canvas = document.getElementById('matrix-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  const chars = '0123456789ABCDEF<>{}[]|/\\#$%@!?;:アイウエオカキクケコサシスセソタチ';
+  let cols, drops;
+
+  function initDrops() {
+    const fontSize = 14;
+    cols = Math.floor(canvas.width / fontSize);
+    drops = Array(cols).fill(0).map(() => Math.random() * -canvas.height / fontSize);
+  }
+  initDrops();
+  window.addEventListener('resize', initDrops);
+
+  let matrixRunning = true;
+
+  function drawMatrix() {
+    if (!matrixRunning) return;
+    ctx.fillStyle = 'rgba(0,0,0,0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = '#00ff41';
+    ctx.font = '14px Courier New';
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = chars[Math.floor(Math.random() * chars.length)];
+      ctx.fillStyle = drops[i] < 2 ? '#afffcf' : '#00ff41';
+      ctx.fillText(text, i * 14, drops[i] * 14);
+      if (drops[i] * 14 > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+    requestAnimationFrame(drawMatrix);
+  }
+
+  // ── STATE MACHINE ─────────────────────────────────────────────
+  // Phase 1: matrix runs for 3.5 s, then quiz fades in
+  // Phase 2: on correct answer → matrix again for 3 s → secret text
+  // Phase 2: on wrong answer  → window.close()
+
+  function showQuiz() {
+    matrixRunning = false;
+    // Fade out canvas gradually
+    canvas.style.transition = 'opacity 0.8s';
+    canvas.style.opacity = '0.15';
+    document.getElementById('quiz-screen').classList.add('active');
+  }
+
+  function handleAnswer(correct) {
+    if (correct) {
+      // Hide quiz, restart matrix, then show text
+      document.getElementById('quiz-screen').classList.remove('active');
+      canvas.style.transition = 'opacity 0.6s';
+      canvas.style.opacity = '1';
+      matrixRunning = true;
+      drawMatrix();
+
+      setTimeout(() => {
+        matrixRunning = false;
+        canvas.style.transition = 'opacity 0.8s';
+        canvas.style.opacity = '0.12';
+        document.getElementById('text-screen').classList.add('active');
+      }, 3000);
+    } else {
+      // Wrong answer: flash red, close
+      document.body.style.background = '#300';
+      setTimeout(() => {
+        try { window.close(); } catch(e) {}
+        // Fallback if window.close() blocked by browser
+        document.body.innerHTML =
+          '<div style="display:flex;height:100vh;align-items:center;justify-content:center;' +
+          'font-family:Courier New,monospace;color:#ff2200;font-size:1.2rem;text-align:center;">' +
+          'ACCESO DENEGADO<br><span style="font-size:0.8rem;margin-top:8px;display:block;">' +
+          'Esta sesión ha sido terminada.</span></div>';
+      }, 400);
+    }
+  }
+
+  // ── BOOT ──────────────────────────────────────────────────────
+  drawMatrix();
+  setTimeout(showQuiz, 3500);
+</script>
+</body>
+</html>
